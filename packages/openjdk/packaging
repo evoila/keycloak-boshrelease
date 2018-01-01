@@ -1,0 +1,5 @@
+set -e -u
+
+mkdir -p ${BOSH_INSTALL_TARGET}
+cd ${BOSH_INSTALL_TARGET}
+tar zxvf ${BOSH_COMPILE_TARGET}/openjdk/java-1.8.0-openjdk-1.8.0.151-1.b12.el6_9.x86_64.tar.gz --strip 1

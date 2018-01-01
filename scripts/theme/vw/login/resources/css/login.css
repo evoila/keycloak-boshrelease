@@ -1,0 +1,149 @@
+.login-pf body {
+    background: #fff;
+    background-size: cover;
+}
+
+.login-pf .container .form-horizontal .control-label {
+    color: #000;
+    font-size: 14px;
+}
+
+.login-pf a:hover {
+    color: #0099d3;
+}
+
+.btn {
+    display: inline-block;
+    font-weight: normal;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.7rem 1.5rem;
+    font-size: 1.5rem;
+}
+
+.btn-primary {
+    background-image: none;
+    color: #fff;
+    background-color: #1AB9DE;
+    border-color: #1AB9DE;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0 0.75rem;
+    font-size: 1.5rem;
+    line-height: 1.25;
+    color: #55595c;
+    background-color: #fff;
+    background-image: none;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+}
+
+.kc-feedback-text {
+    color: #cc0000;
+}
+
+.alert-error {
+    background-color: #ffffff;
+    border-color: #cc0000;
+    color: #333333;
+}
+
+#kc-logo {
+    width: 100%;
+}
+
+#kc-logo-wrapper {
+    background: url("../img/vw-gitc.svg") no-repeat top left;
+    top: 50px;
+    left: 50px;
+    height: 45px;
+    width: 350px;
+}
+
+#kc-header {
+    color: #1AB9DE;
+    overflow: visible;
+    white-space: nowrap;
+}
+
+#kc-header-wrapper {
+    font-size: 26px;
+    text-transform: uppercase;
+    line-height: 1.2em;
+    margin-bottom: 10px;
+}
+
+#kc-content {
+    position: relative;
+}
+
+#kc-content-wrapper {
+    overflow-y: hidden;
+}
+
+.kc-form-button-wrapper {
+    float: right;
+}
+
+@media (min-width: 1281px) {
+    #kc-header-wrapper {
+        padding-bottom: 40px;
+    }
+    #kc-container-wrapper {
+        bottom: 40%;
+    }
+    #kc-logo-wrapper {
+        position: absolute;
+        top: 50px;
+        left: 50px;
+    }
+    .alert {
+        margin-right: 20px;
+    }
+}
+
+@media (min-width: 768px) {
+    #kc-container-wrapper {
+        margin-top: 200px
+    }
+    #kc-logo-wrapper {
+        position: absolute;
+        top: 50px;
+        left: 50px;
+    }
+    #kc-form {
+        float: none;
+    }
+    .alert {
+        margin-right: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    #kc-logo-wrapper {
+        background-position: center;
+        width: 100%;
+        margin: 20px 0;
+    }
+    #kc-header {
+        padding-left: 15px;
+        padding-right: 15px;
+        float: none;
+        text-align: center;
+    }
+    #kc-form {
+        float: none;
+    }
+}

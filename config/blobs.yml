@@ -1,0 +1,12 @@
+keycloak/keycloak-3.4.2.Final.tar.gz:
+  size: 196241465
+  sha: 41dea5a4a6893fcb63bc382ca82f9eb98490feb6
+mysql-connector/mysql-connector-java-5.1.45.tar.gz:
+  size: 3467861
+  sha: 55e7d15653aaad850303ec0eddade28d11ca9a92
+openjdk/java-1.8.0-openjdk-1.8.0.151-1.b12.el6_9.x86_64.tar.gz:
+  size: 106565252
+  sha: 48f2dcf79e1e2fa5b3e16af51ce2b87bb5d33792
+theme/theme.tar.gz:
+  size: 88700
+  sha: 3b3bee8bc88fa23ba6942460c866834b54a97cc3

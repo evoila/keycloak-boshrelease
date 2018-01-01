@@ -1,0 +1,66 @@
+#!/bin/bash 
+
+PROC_NAME=keycloak
+JOB_DIR=/var/vcap/jobs/$PROC_NAME
+PACKAGE_DIR=/var/vcap/packages/$PROC_NAME
+LOG_DIR=/var/vcap/sys/log/$PROC_NAME
+RUN_DIR=/var/vcap/sys/run/$PROC_NAME
+
+PIDFILE=$RUN_DIR/$PROC_NAME.pid
+RUNAS=vcap
+
+chown -R vcap:vcap $PACKAGE_DIR
+chown -R vcap:vcap $JOB_DIR
+chown -R vcap:vcap $LOG_DIR
+chown -R vcap:vcap $RUN_DIR
+
+<%
+masterip    = link("keycloak").instances.first.address
+%>
+# first, some diagnostic info
+# ---------------------------
+#    masterip | '<%= masterip %>'
+#
+
+KEYCLOAK_CONFIG=standalone-ha.xml
+KEYCLOAK_MODE=standalone
+KEYCLOAK_BIND=<%= masterip %>
+
+# Exporting JAVA_HOME for Keycloak configuration
+export JAVA_HOME="/var/vcap/packages/openjdk"
+
+function pid_exists() {
+  ps -p $1 &> /dev/null
+}
+
+case $1 in
+
+  start)
+    echo "Starting Keycloak server..."
+    mkdir -p $RUN_DIR $LOG_DIR
+    chown -R $RUNAS:$RUNAS $RUN_DIR $LOG_DIR
+
+    echo $$ > $PIDFILE
+
+    exec chpst -u $RUNAS:$RUNAS \
+        $PACKAGE_DIR/bin/standalone.sh -c $KEYCLOAK_CONFIG -b $KEYCLOAK_BIND \
+        -bprivate $KEYCLOAK_BIND -Djboss.node.name=$HOSTNAME \
+        >>$LOG_DIR/keycloak.stdout.log 2>>$LOG_DIR/keycloak.stderr.log
+    ;;
+
+  stop)
+    echo "Stopping Keycloak server..."
+    ID=$(head -1 $PIDFILE)
+    if [ ! -z $PID ] && pid_exists $PID; then
+      kill $PID
+    fi
+    while [ -e /proc/$PID ]; do sleep 0.1; done
+    rm -f $PIDFILE
+    ;;
+  *)
+    echo "Usage: postgres_ctl {start|stop}"
+
+    ;;
+
+esac
+exit 0

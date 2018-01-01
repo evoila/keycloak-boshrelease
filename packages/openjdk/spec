@@ -1,0 +1,5 @@
+---
+name: openjdk
+dependencies:
+files:
+- openjdk/java-1.8.0-openjdk-1.8.0.151-1.b12.el6_9.x86_64.tar.gz

@@ -1,0 +1,5 @@
+---
+name: keycloak
+dependencies:
+files:
+- keycloak/keycloak-3.4.2.Final.tar.gz

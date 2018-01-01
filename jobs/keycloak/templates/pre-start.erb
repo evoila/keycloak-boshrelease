@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+## NOTE: This script MUST ALWAYS run as root user.
+
+PACKAGE_DIR="/var/vcap/packages/keycloak"
+JOB_DIR="/var/vcap/jobs/keycloak"
+JBOSS_CLI="$PACKAGE_DIR/bin/jboss-cli.sh --controller=localhost"
+
+# Exporting JAVA_HOME for Keycloak configuration
+export JAVA_HOME="/var/vcap/packages/openjdk"
+
+# Remove some shit, because Wildfly is the App Server nobody needs anymore
+echo "Cleaning up for redeployment scenarios..."
+rm -rf $PACKAGE_DIR/modules/com/mysql
+rm -rf $PACKAGE_DIR/modules/io/
+
+# Executing the initial configuration of Keycloak
+$JBOSS_CLI --file=$JOB_DIR/config/jboss-script.sh
