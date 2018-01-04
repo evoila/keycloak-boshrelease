@@ -14,8 +14,18 @@ export JAVA_HOME="/var/vcap/packages/openjdk"
 
 # Remove some shit, because Wildfly is the App Server nobody needs anymore
 echo "Cleaning up for redeployment scenarios..."
+
 rm -rf $PACKAGE_DIR/modules/com/mysql
 rm -rf $PACKAGE_DIR/modules/io/
+
+CONFIG_FILE=standalone/configuration/standalone-ha.xml
+backupFile=$PACKAGE_DIR/$CONFIG_FILE.bak
+if [ ! -f ${backupFile} ]; then
+    cp $PACKAGE_DIR/$CONFIG_FILE $PACKAGE_DIR/$CONFIG_FILE.bak
+else 
+    rm $PACKAGE_DIR/$CONFIG_FILE
+    cp $PACKAGE_DIR/$CONFIG_FILE.bak $PACKAGE_DIR/$CONFIG_FILE
+fi
 
 # Executing the initial configuration of Keycloak
 $JBOSS_CLI --file=$JOB_DIR/config/jboss-script.sh

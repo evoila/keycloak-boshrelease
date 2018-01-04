@@ -2,17 +2,14 @@ embed-server --server-config=standalone-ha.xml
 
 batch
 
-# add db driver
+echo "Running configuration of datasource"
+    
 module add --name=com.mysql \
     --resources=/var/vcap/packages/mysql-connector/mysql-connector-java-<%= p('keycloak.mysql_connector.jdbc_version') %>-bin.jar \
     --dependencies=javax.api,javax.transaction.api
 /subsystem=datasources/jdbc-driver=mysql:add(driver-name=mysql,driver-module-name=com.mysql)
 
 # add db connection
-# if (outcome == success) of /subsystem=keycloak-server/spi=connectionsJpa/provider=default/dataSource=MySQLDS/:read-resource
-#     /subsystem=keycloak-server/spi=connectionsJpa/provider=default/dataSource=MySQLDS/:remove
-# end-if
-
 data-source add --jndi-name=java:/jboss/datasources/MySQLDS --name=MySQLPool \
     --connection-url="jdbc:mysql://<%= p('keycloak.database.host') %>:<%= p('keycloak.database.port') %>/<%= p('keycloak.database.name') %>" \
     --driver-name=mysql \
@@ -20,7 +17,7 @@ data-source add --jndi-name=java:/jboss/datasources/MySQLDS --name=MySQLPool \
     --password=<%= p('keycloak.database.password') %>
 /subsystem=keycloak-server/spi=connectionsJpa/provider=default/:map-put(name=properties,key=dataSource,value=java:/jboss/datasources/MySQLDS)
 
-# add socket binding for https proxy
+# add socket binding for https proxy    
 /socket-binding-group=standard-sockets/socket-binding=proxy-https/:add(port=443)
 
 # add proxy forwarding functionality (redirect socket must be equal to socket-binding above)

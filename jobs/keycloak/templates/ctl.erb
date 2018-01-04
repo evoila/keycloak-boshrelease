@@ -2,29 +2,25 @@
 
 PROC_NAME=keycloak
 JOB_DIR=/var/vcap/jobs/$PROC_NAME
+STORE_DIR=/var/vcap/store/$PROC_NAME
 PACKAGE_DIR=/var/vcap/packages/$PROC_NAME
 LOG_DIR=/var/vcap/sys/log/$PROC_NAME
 RUN_DIR=/var/vcap/sys/run/$PROC_NAME
 
 PIDFILE=$RUN_DIR/$PROC_NAME.pid
-RUNAS=vcap
-
-chown -R vcap:vcap $PACKAGE_DIR
-chown -R vcap:vcap $JOB_DIR
-chown -R vcap:vcap $LOG_DIR
-chown -R vcap:vcap $RUN_DIR
+RUN_AS=vcap
 
 <%
 masterip    = link("keycloak").instances.first.address
 %>
+KEYCLOAK_CONFIG=standalone-ha.xml
+KEYCLOAK_MODE=standalone
+KEYCLOAK_BIND=<%= masterip %>
+
 # first, some diagnostic info
 # ---------------------------
 #    masterip | '<%= masterip %>'
 #
-
-KEYCLOAK_CONFIG=standalone-ha.xml
-KEYCLOAK_MODE=standalone
-KEYCLOAK_BIND=<%= masterip %>
 
 # Exporting JAVA_HOME for Keycloak configuration
 export JAVA_HOME="/var/vcap/packages/openjdk"
@@ -37,15 +33,18 @@ case $1 in
 
   start)
     echo "Starting Keycloak server..."
-    mkdir -p $RUN_DIR $LOG_DIR
-    chown -R $RUNAS:$RUNAS $RUN_DIR $LOG_DIR
+    mkdir -p $RUN_DIR $LOG_DIR $STORE_DIR
+    chown -R $RUN_AS:$RUN_AS $JOB_DIR $LOG_DIR $RUN_DIR $PACKAGE_DIR $STORE_DIR
 
     echo $$ > $PIDFILE
 
-    exec chpst -u $RUNAS:$RUNAS \
-        $PACKAGE_DIR/bin/standalone.sh -c $KEYCLOAK_CONFIG -b $KEYCLOAK_BIND \
-        -bprivate $KEYCLOAK_BIND -Djboss.node.name=$HOSTNAME \
-        >>$LOG_DIR/keycloak.stdout.log 2>>$LOG_DIR/keycloak.stderr.log
+    $PACKAGE_DIR/bin/standalone.sh -c $KEYCLOAK_CONFIG -b $KEYCLOAK_BIND \
+      -bprivate $KEYCLOAK_BIND -Djboss.node.name=$HOSTNAME \
+      -Djboss.server.base.dir=$STORE_DIR \
+      -Djboss.server.log.dir=$LOG_DIR \
+      -Djboss.server.config.dir=$PACKAGE_DIR/standalone/configuration \
+      -Djboss.server.temp.dir=$STORE_DIR \
+      >>$LOG_DIR/keycloak.stdout.log 2>>$LOG_DIR/keycloak.stderr.log
     ;;
 
   stop)
@@ -58,7 +57,7 @@ case $1 in
     rm -f $PIDFILE
     ;;
   *)
-    echo "Usage: postgres_ctl {start|stop}"
+    echo "Usage: ctl {start|stop}"
 
     ;;
 
