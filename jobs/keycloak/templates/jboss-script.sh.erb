@@ -3,19 +3,29 @@ embed-server --server-config=standalone-ha.xml
 batch
 
 echo "Running configuration of datasource"
-    
-module add --name=com.mysql \
-    --resources=/var/vcap/packages/mysql-connector/mysql-connector-java-<%= p('keycloak.mysql_connector.jdbc_version') %>-bin.jar \
+
+<% 
+backend = p('keycloak.database.backend')
+driver = p('keycloak.database.driver-name')
+if backend == "mysql"
+    javaConnector = "mysql-connector/mysql-connector-java-" + p('keycloak.database.driver-version') + "-bin.jar"
+else
+    javaConnector = "postgres-connector/postgresql-" + p('keycloak.database.driver-version') + ".jar"
+end 
+%>
+
+module add --name=<%= driver %> \
+    --resources=/var/vcap/packages/<%= javaConnector %> \
     --dependencies=javax.api,javax.transaction.api
-/subsystem=datasources/jdbc-driver=mysql:add(driver-name=mysql,driver-module-name=com.mysql)
+/subsystem=datasources/jdbc-driver=<%= backend %>:add(driver-name=<%= backend %>,driver-module-name=<%= driver %>)
 
 # add db connection
-data-source add --jndi-name=java:/jboss/datasources/MySQLDS --name=MySQLPool \
-    --connection-url="jdbc:mysql://<%= p('keycloak.database.host') %>:<%= p('keycloak.database.port') %>/<%= p('keycloak.database.name') %>" \
-    --driver-name=mysql \
+data-source add --jndi-name=java:/jboss/datasources/<%= backend %> --name=<%= backend %> \
+    --connection-url="jdbc:<%= backend %>://<%= p('keycloak.database.host') %>:<%= p('keycloak.database.port') %>/<%= p('keycloak.database.name') %>" \
+    --driver-name=<%= backend %> \
     --user-name=<%= p('keycloak.database.user') %> \
     --password=<%= p('keycloak.database.password') %>
-/subsystem=keycloak-server/spi=connectionsJpa/provider=default/:map-put(name=properties,key=dataSource,value=java:/jboss/datasources/MySQLDS)
+/subsystem=keycloak-server/spi=connectionsJpa/provider=default/:map-put(name=properties,key=dataSource,value=java:/jboss/datasources/<%= backend %>)
 
 # add socket binding for https proxy    
 /socket-binding-group=standard-sockets/socket-binding=proxy-https/:add(port=443)

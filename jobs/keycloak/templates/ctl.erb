@@ -49,12 +49,8 @@ case $1 in
 
   stop)
     echo "Stopping Keycloak server..."
-    ID=$(head -1 $PIDFILE)
-    if [ ! -z $PID ] && pid_exists $PID; then
-      kill $PID
-    fi
-    while [ -e /proc/$PID ]; do sleep 0.1; done
-    rm -f $PIDFILE
+    $PACKAGE_DIR/bin/jboss-cli.sh --connect --controller=localhost:9990 \
+    command=:shutdown
     ;;
   *)
     echo "Usage: ctl {start|stop}"

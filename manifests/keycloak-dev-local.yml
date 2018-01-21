@@ -31,6 +31,9 @@ instance_groups:
     release: keycloak-boshrelease
   properties:
     keycloak:
+      admin:
+        user: admin
+        password: sample123
       database:
-        host: localhost
+        host: 10.244.0.5
         password: keycloak

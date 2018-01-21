@@ -5,6 +5,7 @@ templates:
   ctl.erb: bin/ctl
   pre-start.erb: bin/pre-start
   jboss-script.sh.erb: config/jboss-script.sh
+  post-start.erb: bin/post-start
 
 provides:
 - name: keycloak
@@ -16,20 +17,33 @@ consumes:
   
 packages:
 - openjdk
+- postgres-connector
 - mysql-connector
 - theme
 - keycloak
 
 properties:
-  keycloak.mysql_connector.jdbc_version:
-    description: Version of the JDBC Connector
-    default: 5.1.45
+  keycloak.admin.user:
+    description: The admin user which can be used to configure Keycloak
+    default: admin
+  keycloak.admin.password:
+    description: The password for the admin user
+    default: admin
+  keycloak.database.backend:
+    description: The database backend for Keycloak
+    default: postgresql
+  keycloak.database.driver-name:
+    description: The driver name for the database
+    default: org.postgres.Driver
+  keycloak.database.driver-version: 
+    description: The driver version for the database connector
+    default: 42.2.0
   keycloak.database.host:
     description: Database host in the backend
     default: localhost
   keycloak.database.port:
     description: Database port in the backend
-    default: 3306
+    default: 5432
   keycloak.database.name:
     description: Database name in the backend
     default: keycloak
