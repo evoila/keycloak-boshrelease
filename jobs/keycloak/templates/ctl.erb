@@ -16,10 +16,10 @@ masterip    = link("keycloak").instances.first.address
 KEYCLOAK_CONFIG=standalone-ha.xml
 KEYCLOAK_MODE=standalone
 KEYCLOAK_BIND=<%= p('keycloak.bind_address') %>
-
+MASTER_IP=<%= masterip %>
 # first, some diagnostic info
 # ---------------------------
-#    masterip | '<%= masterip %>'
+#    masterip | <%= masterip %>
 #
 
 # Exporting JAVA_HOME for Keycloak configuration
@@ -39,7 +39,7 @@ case $1 in
     echo $$ > $PIDFILE
 
     $PACKAGE_DIR/bin/standalone.sh -c $KEYCLOAK_CONFIG -b $KEYCLOAK_BIND \
-      -bprivate $KEYCLOAK_BIND -Djboss.node.name=$HOSTNAME \
+      -bprivate $MASTER_IP -Djboss.node.name=$HOSTNAME \
       -Djboss.server.base.dir=$STORE_DIR \
       -Djboss.server.log.dir=$LOG_DIR \
       -Djboss.server.config.dir=$PACKAGE_DIR/standalone/configuration \
