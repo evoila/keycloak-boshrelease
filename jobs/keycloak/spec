@@ -29,6 +29,9 @@ properties:
   keycloak.admin.password:
     description: The password for the admin user
     default: admin
+  keycloak.bind_address:
+    description: Database host in the backend
+    default: 127.0.0.1
   keycloak.database.backend:
     description: The database backend for Keycloak
     default: postgresql
@@ -37,7 +40,7 @@ properties:
     default: org.postgres.Driver
   keycloak.database.driver-version: 
     description: The driver version for the database connector
-    default: 42.2.0
+    default: 42.2.0  
   keycloak.database.host:
     description: Database host in the backend
     default: localhost
