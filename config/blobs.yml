@@ -1,15 +1,20 @@
 keycloak/keycloak-3.4.2.Final.tar.gz:
   size: 196241465
+  object_id: 395d56e9-0df3-492d-7e8b-cf2af13acec8
   sha: 41dea5a4a6893fcb63bc382ca82f9eb98490feb6
 mysql-connector/mysql-connector-java-5.1.45.tar.gz:
   size: 3467861
+  object_id: 31483870-c69b-4e48-413c-6da1a3031698
   sha: 55e7d15653aaad850303ec0eddade28d11ca9a92
 openjdk/java-1.8.0-openjdk-1.8.0.151-1.b12.el6_9.x86_64.tar.gz:
   size: 106565252
+  object_id: 7982107c-f51d-4f5d-765f-8a0a97473cfd
   sha: 48f2dcf79e1e2fa5b3e16af51ce2b87bb5d33792
 postgres-connector/postgresql-42.2.0.tar.gz:
   size: 726870
+  object_id: 958ea949-d17a-45d7-4da8-e084da94e109
   sha: cf306f9785f86d179237103373c895441829d8cd
 theme/theme.tar.gz:
   size: 88700
+  object_id: b0c5fb40-735a-4c8f-575a-89648324526f
   sha: 3b3bee8bc88fa23ba6942460c866834b54a97cc3
