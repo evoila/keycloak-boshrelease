@@ -2,4 +2,4 @@
 name: keycloak
 dependencies:
 files:
-- keycloak/keycloak-3.4.2.Final.tar.gz
+- keycloak/keycloak-6.0.1.tar.gz

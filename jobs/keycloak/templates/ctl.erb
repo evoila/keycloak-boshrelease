@@ -15,7 +15,7 @@ masterip    = link("keycloak").instances.first.address
 %>
 KEYCLOAK_CONFIG=standalone-ha.xml
 KEYCLOAK_MODE=standalone
-KEYCLOAK_BIND=<%= p('keycloak.bind_address') %>
+KEYCLOAK_BIND=<%= masterip %>
 MASTER_IP=<%= masterip %>
 # first, some diagnostic info
 # ---------------------------

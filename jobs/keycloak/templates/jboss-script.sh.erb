@@ -35,8 +35,8 @@ data-source add --jndi-name=java:/jboss/datasources/<%= backend %> --name=<%= ba
 /subsystem=undertow/server=default-server/http-listener=default/:write-attribute(name=redirect-socket,value=proxy-https)
 
 # install meshstack theme and set as default
-module add --name=<%= p('keycloak.theme.module_name') %> --resources=/var/vcap/packages/theme
-/subsystem=keycloak-server/theme=defaults/:write-attribute(name=modules,value=[<%= p('keycloak.theme.module_name') %>])
-/subsystem=keycloak-server/theme=defaults/:write-attribute(name=default,value=theme)
+# module add --name=<%= p('keycloak.theme.module_name') %> --resources=/var/vcap/packages/theme
+# /subsystem=keycloak-server/theme=defaults/:write-attribute(name=modules,value=[<%= p('keycloak.theme.module_name') %>])
+# /subsystem=keycloak-server/theme=defaults/:write-attribute(name=default,value=theme)
 
 run-batch
