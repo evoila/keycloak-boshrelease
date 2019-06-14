@@ -1,5 +1,0 @@
----
-name: theme
-dependencies:
-files:
-- theme/theme.tar.gz

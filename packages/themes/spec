@@ -1,0 +1,5 @@
+---
+name: themes
+dependencies:
+files:
+- themes/themes.jar

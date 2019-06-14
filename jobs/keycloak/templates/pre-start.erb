@@ -12,6 +12,8 @@ JBOSS_CLI="$PACKAGE_DIR/bin/jboss-cli.sh --controller=localhost"
 # Exporting JAVA_HOME for Keycloak configuration
 export JAVA_HOME="/var/vcap/packages/openjdk"
 
+mv /var/vcap/packages/themes/themes/* $PACKAGE_DIR/themes/
+
 # Remove some shit, because Wildfly is the App Server nobody needs anymore
 echo "Cleaning up for redeployment scenarios..."
 

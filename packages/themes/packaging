@@ -1,0 +1,9 @@
+set -e -u
+
+THEMES_FOLDER=/var/vcap/packages/keycloak/themes/
+
+mkdir -p ${BOSH_INSTALL_TARGET}
+cd ${BOSH_INSTALL_TARGET}
+mkdir -p $THEMES_FOLDER
+
+unzip ${BOSH_COMPILE_TARGET}/themes/themes.jar
