@@ -11,7 +11,7 @@ Single Node | No failover or HA Capabilities, when node dies it might get recrea
 
 Name | Version
 ------------ | -------------
-Keycloak Server | 3.4.2
+Keycloak Server | 6.0.1
 
 ## Usage
 

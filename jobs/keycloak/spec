@@ -19,7 +19,7 @@ packages:
 - openjdk
 - postgres-connector
 - mysql-connector
-- theme
+- themes
 - keycloak
 
 properties:
@@ -52,7 +52,7 @@ properties:
     default: keycloak
   keycloak.database.user:
     description: Database user in the backend
-    default: keycloak
+    default: admin
   keycloak.database.password:
     description: Database password in the backend
   keycloak.theme.module_name:
