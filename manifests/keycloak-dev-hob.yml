@@ -40,7 +40,7 @@ instance_groups:
   - name: default
   azs:
   - z1
-  vm_type: small
+  vm_type: minimal
   persistent_disk_type: 10GB
   jobs:
   - name: postgres
