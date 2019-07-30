@@ -6,12 +6,20 @@ name: keycloak
 releases:
 - name: keycloak-boshrelease
   version: latest
+- name: "postgres"
+  version: "38"
+  url: "https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=38"
+  sha1: "23620deb20c34cefadff74c0e5bfdffaaea1a807"
 
 variables:
 - name: admin_credentials
   type: user
   options:
     username: admin
+- name: database_credentials
+  type: user
+  options:
+    username: keycloak
 
 update:
   canaries: 1
@@ -25,6 +33,33 @@ stemcells:
   version: latest
 
 instance_groups:
+- name: postgres
+  instances: 1
+  stemcell: default
+  networks:
+  - name: default
+  azs:
+  - z1
+  vm_type: small
+  persistent_disk_type: 10GB
+  jobs:
+  - name: postgres
+    release: postgres
+    provides:
+      postgres: 
+        as: postgres-database
+        aliases:
+        - domain: 'postgresql.keycloak.internal'
+          health_filter: "healthy"
+    properties:
+      databases:
+        port: 5524
+        roles:
+        - name: ((database_credentials.username))
+          password ((((database_credentials.password))
+        databases:
+        - name: keycloak
+          citext: true
 - name: keycloak
   instances: 1
   vm_type: minimal
@@ -44,3 +79,8 @@ instance_groups:
       admin:
         user: ((admin_credentials.username))
         password: ((admin_credentials.password))
+      database:
+        host: postgresql.keycloak.internal
+        password: ((database_credentials.password))
+        user: ((database_credentials.username))
+        name: keycloak
