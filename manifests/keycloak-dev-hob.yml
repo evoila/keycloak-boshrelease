@@ -56,7 +56,7 @@ instance_groups:
         port: 5524
         roles:
         - name: ((database_credentials.username))
-          password ((((database_credentials.password))
+          password: ((((database_credentials.password))
         databases:
         - name: keycloak
           citext: true
