@@ -27,10 +27,14 @@ stemcells:
 instance_groups:
 - name: keycloak
   instances: 1
-  vm_type: default
+  vm_type: minimal
   stemcell: default  
   networks:
   - name: default
+  azs:
+  - z3
+  - z2
+  - z1
   persistent_disk: 0
   jobs:
   - name: keycloak
