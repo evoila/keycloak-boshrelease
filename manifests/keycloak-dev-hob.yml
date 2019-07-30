@@ -53,7 +53,7 @@ instance_groups:
           health_filter: "healthy"
     properties:
       databases:
-        port: 5524
+        port: 5432
         roles:
         - name: ((database_credentials.username))
           password: ((database_credentials.password))
