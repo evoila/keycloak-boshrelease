@@ -6,20 +6,35 @@ name: keycloak
 releases:
 - name: keycloak-boshrelease
   version: latest
-- name: "postgres"
-  version: "38"
-  url: "https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=38"
-  sha1: "23620deb20c34cefadff74c0e5bfdffaaea1a807"
+- sha1: 9cd2e934f6f1d3f1f0031399fac2a62d5516b81e
+  url: https://s3.eu-central-1.amazonaws.com/monitoring-boshrelease-pipeline-ev/osb-bosh-monitoring-1.0.0.tgz
+  name: osb-bosh-monitoring
+  version: 1.0.0
+- sha1: 206b55849d1123b2ac890b4c308127c6896b4246
+  url: https://s3.eu-central-1.amazonaws.com/postgresql-boshrelease-pipeline-ev/osb-bosh-postgresql-1.3.2.tgz
+  name: osb-bosh-postgresql
+  version: 1.3.2
 
 variables:
 - name: admin_credentials
   type: user
   options:
     username: admin
-- name: database_credentials
+- name: postgresql_credentials
   type: user
   options:
     username: keycloak
+- name: backup_credentials
+  type: user
+  options:
+    username: backup
+- name: exporter_credentials
+  type: user
+  options:
+    username: exporter
+- name: replicationPassword
+  type: password
+
 
 update:
   canaries: 1
@@ -33,33 +48,6 @@ stemcells:
   version: latest
 
 instance_groups:
-- name: postgres
-  instances: 1
-  stemcell: default
-  networks:
-  - name: default
-  azs:
-  - z1
-  vm_type: minimal
-  persistent_disk_type: 10GB
-  jobs:
-  - name: postgres
-    release: postgres
-    provides:
-      postgres: 
-        as: postgres-database
-        aliases:
-        - domain: 'postgresql.keycloak.internal'
-          health_filter: "healthy"
-    properties:
-      databases:
-        port: 5432
-        roles:
-        - name: ((database_credentials.username))
-          password: ((database_credentials.password))
-        databases:
-        - name: keycloak
-          citext: true
 - name: keycloak
   instances: 1
   vm_type: minimal
@@ -67,20 +55,73 @@ instance_groups:
   networks:
   - name: default
   azs:
-  - z3
-  - z2
   - z1
-  persistent_disk: 0
+  persistent_disk_type: 10GB
   jobs:
+  - name: postgres
+    release: osb-bosh-postgresql
+  - name: backup-agent
+    release: osb-bosh-postgresql
+  - name: postgres_exporter
+    release: osb-bosh-monitoring
   - name: keycloak
     release: keycloak-boshrelease
   properties:
+    backup_agent:
+      username: ((backup_credentials.username))
+      password: ((backup_credentials.password))
+    postgres_exporter:
+      user: ((exporter_credentials.username))
+      password: ((exporter_credentials.password))
+      port: 5432
+    postgres:
+      replication:
+        archive_mode: 'on'
+        enabled: true
+      resource:
+        shared_buffers: 128MB
+        temp_buffers: 8MB
+      encoding:
+        lc_messages: 'en_US.UTF-8'
+        lc_monetary: 'en_US.UTF-8'
+        lc_numeric:  'en_US.UTF-8'
+        lc_time:     'en_US.UTF-8'
+      config:
+        port: 5432
+        max_connections: 400
+        max_fiLes_per_process: 1000
+        shared_preload_libraries: 'pg_stat_statements'
+      archive_cleanup: 
+        threshold: 10
+      hba:
+      - host all all 0.0.0.0/0 md5
+      - host all all ::/0 md5
+      admin_users:
+      - username: ((exporter_credentials.username))
+        password: ((exporter_credentials.password))
+        admin: false
+      backup_users:
+      - username: ((backup_credentials.username))
+        password: ((backup_credentials.password))
+      users:
+      - username: ((postgresql_credentials.username))
+        password: ((postgresql_credentials.password))
+        admin: true
+      databases:
+      - name: keycloak
+        users:
+        - ((postgresql_credentials.username))
+        extensions: 
+        - citext 
+      - name: admin
+        users:
+        - pgpool_health
     keycloak:
       admin:
         user: ((admin_credentials.username))
         password: ((admin_credentials.password))
       database:
-        host: postgresql.keycloak.internal
-        password: ((database_credentials.password))
-        user: ((database_credentials.username))
+        host: 127.0.0.1
+        password: ((postgresql_credentials.password))
+        user: ((postgresql_credentials.username))
         name: keycloak
