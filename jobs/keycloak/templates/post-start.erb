@@ -10,7 +10,7 @@ JOB_DIR="/var/vcap/jobs/keycloak"
 JBOSS_CLI="$PACKAGE_DIR/bin/jboss-cli.sh --connect --controller=localhost:9990"
 
 # Exporting JAVA_HOME for Keycloak configuration
-export JAVA_HOME="/var/vcap/packages/openjdk"
+source /var/vcap/packages/openjre-8/bosh/runtime.env
 
 # Running post start changes and restarting Server
 echo "Running post start changes and restarting Server"
