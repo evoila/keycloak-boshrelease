@@ -3,7 +3,6 @@
 /ci/settings.yml
 /.blobs/
 /.dev_builds/
-/.final_builds/
 /blobs/
 /config/dev.yml
 /config/private.yml
