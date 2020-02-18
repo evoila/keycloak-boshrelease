@@ -14,8 +14,9 @@ JBOSS_CLI="$PACKAGE_DIR/bin/jboss-cli.sh --controller=localhost"
 # Remove some shit, because Wildfly is the App Server nobody needs anymore
 echo "Cleaning up for redeployment scenarios..."
 
-rm -rf $PACKAGE_DIR/modules/com/mysql
-rm -rf $PACKAGE_DIR/modules/io/
+rm -rf $PACKAGE_DIR/modules/org/postgres || echo "no postgres module to delete"
+rm -rf $PACKAGE_DIR/modules/com/mysql || echo "no mysql module to delete" 
+rm -rf $PACKAGE_DIR/modules/io/ || echo "no io module to delete" 
 
 CONFIG_FILE=standalone/configuration/standalone-ha.xml
 backupFile=$PACKAGE_DIR/$CONFIG_FILE.bak
@@ -27,8 +28,7 @@ else
 fi
 # Exporting JAVA_HOME for Keycloak configuration
 
-source /var/vcap/packages/openjre-8/bosh/runtime.env
 
 # Executing the initial configuration of Keycloak
-source /var/vcap/packages/openjre-8/bosh/runtime.env
+source /var/vcap/packages/openjre-11/bosh/runtime.env
 $JBOSS_CLI --file=$JOB_DIR/config/jboss-script.sh

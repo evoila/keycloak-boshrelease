@@ -16,7 +16,7 @@ consumes:
   type: keycloak
   
 packages:
-- openjre-8
+- openjre-11
 - postgres-connector
 - mysql-connector
 - themes

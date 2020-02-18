@@ -26,7 +26,7 @@ MASTER_IP=<%= spec.networks.default.ip %>
 #
 
 # Exporting JAVA_HOME for Keycloak configuration
-source /var/vcap/packages/openjre-8/bosh/runtime.env
+source /var/vcap/packages/openjre-11/bosh/runtime.env
 
 function pid_exists() {
   ps -p $1 &> /dev/null
