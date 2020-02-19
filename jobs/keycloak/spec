@@ -5,7 +5,7 @@ templates:
   ctl.erb: bin/ctl
   pre-start.erb: bin/pre-start
   jboss-script.sh.erb: config/jboss-script.sh
-  post-start.erb: bin/post-start
+  post-deploy.erb: bin/post-deploy
 
 provides:
 - name: keycloak
@@ -14,6 +14,9 @@ provides:
 consumes:
 - name: keycloak
   type: keycloak
+- name: database
+  type: database
+  optional: true
   
 packages:
 - openjre-11
@@ -58,3 +61,6 @@ properties:
   keycloak.theme.module_name:
     description: The module name of the Keycloak theme
     default: io.keycloak.theme
+  keycloak.cluster.method:
+    default: none
+    description: can be "none", "tcpping" or "jdbc"

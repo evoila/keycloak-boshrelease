@@ -5,12 +5,20 @@ batch
 echo "Running configuration of datasource"
 
 <% 
+database_host=nil
+if_link("database"){|v| database_host = v.address } 
+if database_host.nil? 
+  database_host = p('keycloak.database.host')
+end
+cluster_method = p('keycloak.cluster.method')
 backend = p('keycloak.database.backend')
 driver = p('keycloak.database.driver-name')
 if backend == "mysql"
     javaConnector = "mysql-connector/mysql-connector-java-" + p('keycloak.database.driver-version') + "-bin.jar"
+    sql_statement="CREATE TABLE IF NOT EXISTS JGROUPSPING (own_addr varchar(200) NOT NULL, cluster_name varchar(200) NOT NULL, updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, ping_data varbinary(5000) DEFAULT NULL, PRIMARY KEY (own_addr, cluster_name)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin"
 else
     javaConnector = "postgres-connector/postgresql-" + p('keycloak.database.driver-version') + ".jar"
+    sql_statement="CREATE TABLE IF NOT EXISTS JGROUPSPING (own_addr varchar(200) NOT NULL, cluster_name varchar(200) NOT NULL, ping_data bytea DEFAULT NULL, PRIMARY KEY(own_addr, cluster_name));"
 end 
 %>
 
@@ -21,7 +29,7 @@ module add --name=<%= driver %> \
 
 # add db connection
 data-source add --jndi-name=java:/jboss/datasources/<%= backend %> --name=<%= backend %> \
-    --connection-url="jdbc:<%= backend %>://<%= p('keycloak.database.host') %>:<%= p('keycloak.database.port') %>/<%= p('keycloak.database.name') %>" \
+    --connection-url="jdbc:<%= backend %>://<%= database_host %>:<%= p('keycloak.database.port') %>/<%= p('keycloak.database.name') %>" \
     --driver-name=<%= backend %> \
     --user-name=<%= p('keycloak.database.user') %> \
     --password=<%= p('keycloak.database.password') %>
@@ -39,4 +47,40 @@ data-source add --jndi-name=java:/jboss/datasources/<%= backend %> --name=<%= ba
 # /subsystem=keycloak-server/theme=defaults/:write-attribute(name=modules,value=[<%= p('keycloak.theme.module_name') %>])
 # /subsystem=keycloak-server/theme=defaults/:write-attribute(name=default,value=theme)
 
+
+<% if ["tcpping","jdbc"].include?(cluster_method) %>
+/subsystem=jgroups/stack=tcp/: remove()
+/subsystem=jgroups/stack=tcp/: add()
+cd /subsystem=jgroups/stack=tcp/
+
+<% if cluster_method == "jdbc" %>
+/subsystem=jgroups/stack=tcp/protocol=JDBC_PING: add(properties=[datasource_jndi_name="java:jboss/datasources/<%= backend %>",initialize_sql="<%= sql_statement %>"])
+<% elsif cluster_method == "tcpping" %>
+/subsystem=jgroups/stack=tcp/protocol=TCPPING: add(properties=[initial_hosts="<%= link("keycloak").instances.map{|v| "#{v.address}[7600]" }.join(",") %>",port_rage="0"])
+<% end %>
+
+./protocol=MERGE3: add()
+./transport=TCP:add(socket-binding=jgroups-tcp)
+./protocol=FD_SOCK:add(socket-binding=jgroups-tcp-fd)
+./protocol=FD_ALL: add()
+./protocol=VERIFY_SUSPECT: add()
+./protocol=pbcast.NAKACK2: add()
+./protocol=UNICAST3: add()
+./protocol=pbcast.STABLE: add()
+./protocol=pbcast.GMS: add(properties=[join_timeout=30000, print_local_addr=true, print_physical_addrs=true])
+./protocol=MFC: add()
+./protocol=FRAG3: add()
+/subsystem=jgroups/channel=ee:write-attribute(name=stack,value=tcp)
+/subsystem=jgroups/stack=udp: remove()
+/socket-binding-group=standard-sockets/socket-binding=jgroups-udp:remove()
+
+
+cd /subsystem=infinispan/cache-container=keycloak/
+./distributed-cache=sessions/:write-attribute(name=owners,value=2)
+./distributed-cache=authenticationSessions/:write-attribute(name=owners,value=2)
+./distributed-cache=offlineSessions/:write-attribute(name=owners,value=2)
+./distributed-cache=clientSessions/:write-attribute(name=owners,value=2)
+./distributed-cache=offlineClientSessions/:write-attribute(name=owners,value=2)
+
+<% end %>
 run-batch

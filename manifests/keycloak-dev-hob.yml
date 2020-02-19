@@ -48,7 +48,7 @@ stemcells:
   version: latest
 
 instance_groups:
-- name: keycloak
+- name: postgresql
   instances: 1
   vm_type: minimal
   stemcell: default  
@@ -60,12 +60,14 @@ instance_groups:
   jobs:
   - name: postgres
     release: osb-bosh-postgresql
+    provides: 
+      postgres:
+        aliases:
+        - domain: postgres.keycloak
   - name: backup-agent
     release: osb-bosh-postgresql
   - name: postgres_exporter
     release: osb-bosh-monitoring
-  - name: keycloak
-    release: keycloak-boshrelease
   properties:
     backup_agent:
       username: ((backup_credentials.username))
@@ -116,12 +118,29 @@ instance_groups:
       - name: admin
         users:
         - pgpool_health
+- name: keycloak
+  instances: 2
+  vm_type: minimal
+  stemcell: default  
+
+  networks:
+  - name: default
+  azs:
+  - z2
+  - z3
+  persistent_disk_type: 10GB
+  jobs:
+  - name: keycloak
+    release: keycloak-boshrelease
+  properties:
     keycloak:
+      cluster:
+        method: tcpping
       admin:
         user: ((admin_credentials.username))
         password: ((admin_credentials.password))
       database:
-        host: 127.0.0.1
+        host: postgres.keycloak
         password: ((postgresql_credentials.password))
         user: ((postgresql_credentials.username))
         name: keycloak
