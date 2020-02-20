@@ -6,6 +6,7 @@ templates:
   pre-start.erb: bin/pre-start
   jboss-script.sh.erb: config/jboss-script.sh
   post-start.erb: bin/post-start
+  add_certs.sh.erb: bin/add_certs.sh
 
 provides:
 - name: keycloak
@@ -64,3 +65,9 @@ properties:
   keycloak.cluster.method:
     default: none
     description: can be "none", "tcpping" or "jdbc"
+  keycloak.trust_certs:
+    description: certs add to java truststore alias:cert
+    example:
+      MyCert: |
+        ---- BEGIN
+      
