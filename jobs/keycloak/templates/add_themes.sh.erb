@@ -1,0 +1,29 @@
+#!/bin/bash
+set -e
+pushd /var/vcap/packages/keycloak/themes
+<% if_p('keycloak.themes') do |content|
+
+content.each do |element|
+get_data=""
+cammand=""
+bash_line=""
+if element.has_key?('content')
+  get_data="base64 -d <<<\"#{element['content']}\""
+elsif element.has_key?('curl')
+  get_data="curl -L \"#{element['curl']}\""
+end
+
+if get_data ==""
+  raise "echo 'Wrong method to get template"
+elsif element['typ'] == "tar.gz"
+  command="#{get_data} | tar -xz"
+elsif element['typ'] == "zip"
+  bashline="tf=$(mktemp) && #{get_data} >$tf && unzip $tf && rm $tf"
+else
+  raise "echo 'Wrong file typ to get template"
+end %>
+<%= bashline %> 
+<% end 
+end %>
+
+popd

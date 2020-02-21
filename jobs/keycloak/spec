@@ -7,6 +7,7 @@ templates:
   jboss-script.sh.erb: config/jboss-script.sh
   post-start.erb: bin/post-start
   add_certs.sh.erb: bin/add_certs.sh
+  add_themes.sh.erb: bin/add_themes.sh
 
 provides:
 - name: keycloak
@@ -23,7 +24,6 @@ packages:
 - openjre-11
 - postgres-connector
 - mysql-connector
-- themes
 - keycloak
 
 properties:
@@ -70,4 +70,10 @@ properties:
     example:
       MyCert: |
         ---- BEGIN
-      
+  keycloak.themes:
+    description: add themes to keycloak support tar.gz and zip
+    example:
+    - curl: url
+      typ: tar.gz or zip
+    - content: base64 encoded file
+      typ: tar.gz or zip

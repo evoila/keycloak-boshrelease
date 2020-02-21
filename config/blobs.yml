@@ -10,7 +10,3 @@ postgres-connector/postgresql-42.2.0.tar.gz:
   size: 726870
   object_id: 958ea949-d17a-45d7-4da8-e084da94e109
   sha: cf306f9785f86d179237103373c895441829d8cd
-themes/themes.jar:
-  size: 90277
-  object_id: c00902ca-75a3-4777-5e4b-f91a817b9d6e
-  sha: sha256:ca27a68cba02f1e66b20b782db39fd52a6051111ecbfc252348bdeec85f37e24

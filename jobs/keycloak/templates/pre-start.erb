@@ -32,4 +32,5 @@ fi
 # Executing the initial configuration of Keycloak
 source /var/vcap/packages/openjre-11/bosh/runtime.env
 $JOB_DIR/bin/add_certs.sh
+$JOB_DIR/bin/add_themes.sh
 $JBOSS_CLI --file=$JOB_DIR/config/jboss-script.sh
