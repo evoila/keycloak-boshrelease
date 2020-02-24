@@ -16,7 +16,7 @@ end
 if get_data ==""
   raise "echo 'Wrong method to get template"
 elsif element['typ'] == "tar.gz"
-  baseline="#{get_data} | tar -xz"
+  bashline="#{get_data} | tar -xz"
 elsif element['typ'] == "zip"
   bashline="tf=$(mktemp) && #{get_data} >$tf && unzip $tf && rm $tf"
 else
