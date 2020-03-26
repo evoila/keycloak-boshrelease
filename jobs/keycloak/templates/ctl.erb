@@ -13,17 +13,20 @@ RUN_AS=vcap
 <%
 masterip    = link("keycloak").instances.first.address
 %>
+
 KEYCLOAK_CONFIG=standalone-ha.xml
 KEYCLOAK_MODE=standalone
-KEYCLOAK_BIND=<%= masterip %>
-MASTER_IP=<%= masterip %>
+KEYCLOAK_BIND=<%= spec.networks.default.ip %>
+#MASTER_IP=<%= masterip %>
+MASTER_IP=<%= spec.networks.default.ip %>
+
 # first, some diagnostic info
 # ---------------------------
 #    masterip | <%= masterip %>
 #
 
 # Exporting JAVA_HOME for Keycloak configuration
-export JAVA_HOME="/var/vcap/packages/openjdk"
+source /var/vcap/packages/openjre-11/bosh/runtime.env
 
 function pid_exists() {
   ps -p $1 &> /dev/null

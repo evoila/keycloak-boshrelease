@@ -1,0 +1,41 @@
+name: keycloak-boshrelease
+version: "0.9"
+commit_hash: 2f63557
+uncommitted_changes: false
+jobs:
+- name: keycloak
+  version: b56ebaa020d9436f3597c191a829599ca280180ab597127ae6f0ade0a9c42261
+  fingerprint: b56ebaa020d9436f3597c191a829599ca280180ab597127ae6f0ade0a9c42261
+  sha1: sha256:b558905187a030a87332fe87ce18986074822f531a0da4994a6381c265dc46d4
+  packages:
+  - openjre-8
+  - postgres-connector
+  - mysql-connector
+  - themes
+  - keycloak
+packages:
+- name: keycloak
+  version: 35de6fff355723df184d49c37cd3f1cc6cb9a6e973138f847d188d9e787340cf
+  fingerprint: 35de6fff355723df184d49c37cd3f1cc6cb9a6e973138f847d188d9e787340cf
+  sha1: sha256:7927e1451e12a74580ff654b0ad732d6250bb85d5cb661d17f8004a78d40f811
+  dependencies: []
+- name: mysql-connector
+  version: dff4324485f9e924ac23a876eb307516d134c470cb1c9603a43e9458abaaa17a
+  fingerprint: dff4324485f9e924ac23a876eb307516d134c470cb1c9603a43e9458abaaa17a
+  sha1: sha256:0f0f61dc00684436ba28646cc8ce52311727378d796b21d5fc0542107ae18c7f
+  dependencies: []
+- name: openjre-8
+  version: 7a31b596cd248a863ee26caf34d13eba385bac6a29758ee163dbd9c117b4685d
+  fingerprint: 7a31b596cd248a863ee26caf34d13eba385bac6a29758ee163dbd9c117b4685d
+  sha1: sha256:2933162a4781d772b8eac9bed843047397b28c5c1d77577db36f5e4ac743716d
+  dependencies: []
+- name: postgres-connector
+  version: 665f1236f973a2835cb7422302d844d00cccbc47352b5543acd97a9b467ba7cb
+  fingerprint: 665f1236f973a2835cb7422302d844d00cccbc47352b5543acd97a9b467ba7cb
+  sha1: sha256:95274ac016429db938bde37f273cd8e7961967ef118679ed6c71260c3782b2f1
+  dependencies: []
+- name: themes
+  version: e5fd09d9ed30ce3f67616dbf6c8ae978c554060c47f7d0f5f5d7d46fb1849481
+  fingerprint: e5fd09d9ed30ce3f67616dbf6c8ae978c554060c47f7d0f5f5d7d46fb1849481
+  sha1: sha256:9fea344fbcefd32a38c308ef7262d6afa09bd48754a130d4bac68453f4130af2
+  dependencies: []

@@ -2,4 +2,4 @@ set -e
 
 mkdir -p ${BOSH_INSTALL_TARGET}
 cd ${BOSH_INSTALL_TARGET}
-tar zxvf ${BOSH_COMPILE_TARGET}/keycloak/keycloak-6.0.1.tar.gz --strip 1
+tar zxvf ${BOSH_COMPILE_TARGET}/keycloak/keycloak-*.tar.gz --strip 1

@@ -6,6 +6,8 @@ templates:
   pre-start.erb: bin/pre-start
   jboss-script.sh.erb: config/jboss-script.sh
   post-start.erb: bin/post-start
+  add_certs.sh.erb: bin/add_certs.sh
+  add_themes.sh.erb: bin/add_themes.sh
 
 provides:
 - name: keycloak
@@ -14,12 +16,14 @@ provides:
 consumes:
 - name: keycloak
   type: keycloak
+- name: database
+  type: database
+  optional: true
   
 packages:
-- openjdk
+- openjre-11
 - postgres-connector
 - mysql-connector
-- themes
 - keycloak
 
 properties:
@@ -58,3 +62,18 @@ properties:
   keycloak.theme.module_name:
     description: The module name of the Keycloak theme
     default: io.keycloak.theme
+  keycloak.cluster.method:
+    default: none
+    description: can be "none", "tcpping" or "jdbc"
+  keycloak.trust_certs:
+    description: certs add to java truststore alias:cert
+    example:
+      MyCert: |
+        ---- BEGIN
+  keycloak.themes:
+    description: add themes to keycloak support tar.gz and zip
+    example:
+    - curl: url
+      typ: tar.gz or zip
+    - content: base64 encoded file
+      typ: tar.gz or zip
