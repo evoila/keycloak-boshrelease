@@ -1,4 +1,4 @@
 set -e
 
 mkdir -p ${BOSH_INSTALL_TARGET}
-cp *.jar ${BOSH_INSTALL_TARGET}
+cp ${BOSH_COMPILE_TARGET}/postgres-connector/*.jar ${BOSH_INSTALL_TARGET}
