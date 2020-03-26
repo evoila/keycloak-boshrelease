@@ -2,4 +2,4 @@ set -e
 
 mkdir -p ${BOSH_INSTALL_TARGET}
 cd ${BOSH_INSTALL_TARGET}
-tar zxvf ${BOSH_COMPILE_TARGET}/mysql-connector/mysql-connector-java-5.1.45.tar.gz --strip 1
+tar zxvf ${BOSH_COMPILE_TARGET}/mysql-connector/mysql-connector-java-*.tar.gz --strip 1

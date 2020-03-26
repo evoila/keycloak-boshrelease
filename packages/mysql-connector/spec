@@ -2,4 +2,4 @@
 name: mysql-connector
 dependencies:
 files:
-- mysql-connector/mysql-connector-java-5.1.45.tar.gz
+- mysql-connector/mysql-connector-java-*.tar.gz
