@@ -1,0 +1,17 @@
+.python-version
+/ci/final-pipeline.yml
+/ci/settings.yml
+/.blobs/
+/.dev_builds/
+/blobs/
+/config/dev.yml
+/config/private.yml
+/dev_releases/
+/deployment
+*.tgz
+*.sha1
+/deployment_configurations/*
+
+scripts/themes/
+
+scripts/themes\.jar

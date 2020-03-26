@@ -1,0 +1,39 @@
+---
+# https://bosh.io/docs/cli-v2.html#deployment-mgmt
+
+name: keycloak
+
+releases:
+- name: keycloak-boshrelease
+  version: latest
+
+update:
+  canaries: 1
+  max_in_flight: 2
+  canary_watch_time: 1000-30000
+  update_watch_time: 1000-30000
+
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: latest
+
+instance_groups:
+- name: keycloak
+  instances: 1
+  vm_type: default
+  stemcell: default  
+  networks:
+  - name: default
+  persistent_disk: 0
+  jobs:
+  - name: keycloak
+    release: keycloak-boshrelease
+  properties:
+    keycloak:
+      admin:
+        user: admin
+        password: sample123
+      database:
+        host: 10.244.0.5
+        password: keycloak

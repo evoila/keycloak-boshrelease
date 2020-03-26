@@ -1,0 +1,5 @@
+---
+name: postgres-connector
+dependencies:
+files:
+- postgres-connector/postgresql-42.2.0.tar.gz

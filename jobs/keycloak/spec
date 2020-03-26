@@ -1,0 +1,79 @@
+---
+name: keycloak
+
+templates:
+  ctl.erb: bin/ctl
+  pre-start.erb: bin/pre-start
+  jboss-script.sh.erb: config/jboss-script.sh
+  post-start.erb: bin/post-start
+  add_certs.sh.erb: bin/add_certs.sh
+  add_themes.sh.erb: bin/add_themes.sh
+
+provides:
+- name: keycloak
+  type: keycloak
+
+consumes:
+- name: keycloak
+  type: keycloak
+- name: database
+  type: database
+  optional: true
+  
+packages:
+- openjre-11
+- postgres-connector
+- mysql-connector
+- keycloak
+
+properties:
+  keycloak.admin.user:
+    description: The admin user which can be used to configure Keycloak
+    default: admin
+  keycloak.admin.password:
+    description: The password for the admin user
+    default: admin
+  keycloak.bind_address:
+    description: Database host in the backend
+    default: 127.0.0.1
+  keycloak.database.backend:
+    description: The database backend for Keycloak
+    default: postgresql
+  keycloak.database.driver-name:
+    description: The driver name for the database
+    default: org.postgres.Driver
+  keycloak.database.driver-version: 
+    description: The driver version for the database connector
+    default: 42.2.0  
+  keycloak.database.host:
+    description: Database host in the backend
+    default: localhost
+  keycloak.database.port:
+    description: Database port in the backend
+    default: 5432
+  keycloak.database.name:
+    description: Database name in the backend
+    default: keycloak
+  keycloak.database.user:
+    description: Database user in the backend
+    default: admin
+  keycloak.database.password:
+    description: Database password in the backend
+  keycloak.theme.module_name:
+    description: The module name of the Keycloak theme
+    default: io.keycloak.theme
+  keycloak.cluster.method:
+    default: none
+    description: can be "none", "tcpping" or "jdbc"
+  keycloak.trust_certs:
+    description: certs add to java truststore alias:cert
+    example:
+      MyCert: |
+        ---- BEGIN
+  keycloak.themes:
+    description: add themes to keycloak support tar.gz and zip
+    example:
+    - curl: url
+      typ: tar.gz or zip
+    - content: base64 encoded file
+      typ: tar.gz or zip

@@ -1,0 +1,5 @@
+---
+name: keycloak
+dependencies:
+files:
+- keycloak/keycloak-*.tar.gz

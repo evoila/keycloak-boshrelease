@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+<% if_p("keycloak.trust_certs") do |trust|
+trust.each do |cert_alias,cert| -%>
+keytool -cacerts -delete -alias "<%= cert_alias %>" || echo "" >/dev/null
+keytool -importcert -file <(echo -e "<%= cert %>")  -cacerts -alias "<%= cert_alias %>" -storepass  changeit -noprompt
+<% end
+   end -%>
