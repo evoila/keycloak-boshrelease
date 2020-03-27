@@ -44,7 +44,7 @@ properties:
     default: org.postgres.Driver
   keycloak.database.driver-version: 
     description: The driver version for the database connector
-    default: 42.2.0  
+    default: 42.2.11  
   keycloak.database.host:
     description: Database host in the backend
     default: localhost
