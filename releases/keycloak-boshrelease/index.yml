@@ -1,4 +1,6 @@
 builds:
+  0521761c-9091-4175-5bfc-535e52c93a2c:
+    version: "0.10"
   790c3952-7984-4a18-5218-21633209353e:
     version: "0.9"
 format-version: "2"
