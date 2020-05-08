@@ -1,7 +1,7 @@
-keycloak/keycloak-10.0.0.tar.gz:
-  size: 229870580
-  object_id: keycloak-10.0.0.tar.gz
-  sha: sha256:cf2653ea363b14750335495e6b20ac89dd340147b0d6850a119a7139641d6f2c
+keycloak/keycloak-10.0.1.tar.gz:
+  size: 230081854
+  object_id: keycloak-10.0.1.tar.gz
+  sha: sha256:d39c15c3dd59ef3f6dec3e35e13acd55baba3f32ba201dda2b098b35327a8ec6
 mysql-connector/mysql-connector-java-8.0.20.tar.gz:
   size: 3930793
   object_id: mysql-connector-java-8.0.20.tar.gz
