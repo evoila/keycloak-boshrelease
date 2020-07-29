@@ -1,12 +1,12 @@
-keycloak/keycloak-10.0.1.tar.gz:
-  size: 230081854
-  object_id: keycloak-10.0.1.tar.gz
-  sha: sha256:d39c15c3dd59ef3f6dec3e35e13acd55baba3f32ba201dda2b098b35327a8ec6
+keycloak/keycloak-11.0.0.tar.gz:
+  size: 228260294
+  object_id: keycloak-11.0.0.tar.gz
+  sha: sha256:162028f8fa20c95de2bbbb15f5c3b64070eb7acc9f1fe3c5cf7e0400a171cf0e 
 mysql-connector/mysql-connector-java-8.0.20.tar.gz:
   size: 3930793
   object_id: mysql-connector-java-8.0.20.tar.gz
   sha: sha256:65c3306e3d01769b6cbe7c10f0513204ae55980b8b88003aeb56c921c602acc6
-postgres-connector/postgresql-42.2.11.jar:
-  size: 931828
-  object_id: postgresql-42.2.11.jar
-  sha: sha256:31e9f3dc586c07477235893279ee80036de377681badaa1f27db6b74ab2437f4
+postgres-connector/postgresql-42.2.14.jar:
+  size: 932808 
+  object_id: postgresql-42.2.14.jar
+  sha: sha256:48bbba05845b40bcce66ece3d7652153d27b5379d5ae90977b78eefd7c7a0287
