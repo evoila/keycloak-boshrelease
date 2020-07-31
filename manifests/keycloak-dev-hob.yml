@@ -55,15 +55,13 @@ instance_groups:
   persistent_disk_type: 10GB
   jobs:
   - name: postgres
-    release: osb-bosh-postgresql
+    release: osb-bosh-postgresql-tde
     provides: 
       postgres:
         aliases:
         - domain: postgres.keycloak
   - name: backup-agent
-    release: osb-bosh-postgresql
-  - name: postgres_exporter
-    release: osb-bosh-monitoring
+    release: osb-bosh-postgresql-tde
   properties:
     backup_agent:
       username: ((backup_credentials.username))
