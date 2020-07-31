@@ -29,7 +29,7 @@ module add --name=<%= driver %> \
 
 # add db connection
 data-source add --jndi-name=java:/jboss/datasources/<%= backend %> --name=<%= backend %> \
-    --connection-url="jdbc:<%= backend %>://<%= database_host %>:<%= p('keycloak.database.port') %>/<%= p('keycloak.database.name') %>" \
+    --connection-url="jdbc:<%= backend %>://<%= database_host %>:<%= p('keycloak.database.port') %>/<%= p('keycloak.database.name') %><%= p('keycloak.database.append') %>" \
     --driver-name=<%= backend %> \
     --user-name=<%= p('keycloak.database.user') %> \
     --password=<%= p('keycloak.database.password') %>

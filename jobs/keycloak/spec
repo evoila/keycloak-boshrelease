@@ -51,6 +51,10 @@ properties:
   keycloak.database.port:
     description: Database port in the backend
     default: 5432
+  keycloak.database.append:
+    description: string append to jdbc url
+    default: ""
+    example: "?sslmode=verify-full"
   keycloak.database.name:
     description: Database name in the backend
     default: keycloak
