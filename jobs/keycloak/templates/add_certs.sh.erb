@@ -1,8 +1,11 @@
 #!/bin/bash
 set -e
+mkdir -p $PACKAGE_DIR/certs/
+cat /usr/local/share/ca-certificates/bosh* > $PACKAGE_DIR/certs/trust.crt
 <% if_p("keycloak.trust_certs") do |trust|
 trust.each do |cert_alias,cert| -%>
 keytool -cacerts -delete -alias "<%= cert_alias %>" || echo "" >/dev/null
 keytool -importcert -file <(echo -e "<%= cert %>")  -cacerts -alias "<%= cert_alias %>" -storepass  changeit -noprompt
+echo -e "<%= cert %>" > $PACKAGE_DIR/certs/trust.crt
 <% end
    end -%>

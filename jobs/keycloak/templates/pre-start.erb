@@ -18,6 +18,7 @@ LOG_DIR="/var/vcap/sys/log/keycloak"
 # Remove some shit, because Wildfly is the App Server nobody needs anymore
 echo "Cleaning up for redeployment scenarios..."
 
+
 rm -rf $PACKAGE_DIR/modules/org/postgres || echo "no postgres module to delete"
 rm -rf $PACKAGE_DIR/modules/com/mysql || echo "no mysql module to delete" 
 rm -rf $PACKAGE_DIR/modules/io/ || echo "no io module to delete" 
