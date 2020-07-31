@@ -5,7 +5,7 @@ name: keycloak
 
 releases:
 - name: keycloak-boshrelease
-  version: latest
+  version: 0.10+dev.4
 - sha1: 9cd2e934f6f1d3f1f0031399fac2a62d5516b81e
   url: https://s3.eu-central-1.amazonaws.com/monitoring-boshrelease-pipeline-ev/osb-bosh-monitoring-1.0.0.tgz
   name: osb-bosh-monitoring

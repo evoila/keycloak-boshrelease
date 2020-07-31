@@ -10,8 +10,8 @@ RUN_DIR=/var/vcap/sys/run/$PROC_NAME
 PIDFILE=$RUN_DIR/$PROC_NAME.pid
 RUN_AS=vcap
 
-exec >> $LOG_DIR/ctl.stdout.log
-exec 2>> $LOG_DIR/ctl.stderr.log
+#exec >> $LOG_DIR/ctl.stdout.log
+#exec 2>> $LOG_DIR/ctl.stderr.log
 
 <%
 masterip    = link("keycloak").instances.first.address
