@@ -8,6 +8,10 @@ set -o pipefail
 PACKAGE_DIR="/var/vcap/packages/keycloak"
 JOB_DIR="/var/vcap/jobs/keycloak"
 JBOSS_CLI="$PACKAGE_DIR/bin/jboss-cli.sh --connect --controller=localhost:9990"
+LOG_DIR="/var/vcap/sys/log/keycloak"
+
+exec >> $LOG_DIR/poststart.stdout.log
+exec 2>> $LOG_DIR/poststart.stderr.log
 
 # Exporting JAVA_HOME for Keycloak configuration
 source /var/vcap/packages/openjre-11/bosh/runtime.env
