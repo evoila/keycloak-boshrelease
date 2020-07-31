@@ -24,14 +24,16 @@ function checkport {
 	fi
 }
 
-TIMEOUT=60
+TIMEOUT=100
 end=$((SECONDS+$TIMEOUT))
 
 while [ $SECONDS -lt $end ]; do
     result=`checkport localhost 9990`
-    if [ "$result" == "ok" ]; then
+    if [ "$result" == "open" ]; then
         echo "Checking port was successful"
         break
+    else
+        sleep 1
     fi
 done
 
