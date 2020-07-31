@@ -5,8 +5,8 @@ set -o pipefail
 
 ## NOTE: This script MUST ALWAYS run as root user.
 
-export PACKAGE_DIR="/var/vcap/packages/keycloak"
-JOB_DIR="/var/vcap/jobs/keycloak"
+PACKAGE_DIR="/var/vcap/packages/keycloak"
+export JOB_DIR="/var/vcap/jobs/keycloak"
 JBOSS_CLI="$PACKAGE_DIR/bin/jboss-cli.sh --controller=localhost"
 LOG_DIR="/var/vcap/sys/log/keycloak"
 
