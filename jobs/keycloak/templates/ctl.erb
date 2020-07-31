@@ -36,9 +36,8 @@ case $1 in
 
   start)
     echo "Starting Keycloak server..."
-    mkdir -p $RUN_DIR $LOG_DIR $STORE_DIR
-    chown -R $RUN_AS:$RUN_AS $JOB_DIR $LOG_DIR $RUN_DIR $PACKAGE_DIR $STORE_DIR/deployments
-
+    mkdir -p $RUN_DIR $LOG_DIR $STORE_DIR/deployments
+    chown -R $RUN_AS:$RUN_AS $JOB_DIR $LOG_DIR $RUN_DIR $PACKAGE_DIR $STORE_DIR
     echo $$ > $PIDFILE
 
     $PACKAGE_DIR/bin/standalone.sh -c $KEYCLOAK_CONFIG -b $KEYCLOAK_BIND \
