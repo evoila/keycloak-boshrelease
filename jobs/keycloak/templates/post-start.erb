@@ -41,3 +41,4 @@ done
 $PACKAGE_DIR/bin/add-user-keycloak.sh -u <%= p('keycloak.admin.user') %> -p <%= p('keycloak.admin.password') %> || echo "user already exist"
 <% end %>
 $JBOSS_CLI command=:reload | grep -q "success"
+exit 0
