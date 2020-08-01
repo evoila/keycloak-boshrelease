@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 mkdir -p $JOB_DIR/certs/
-awk 1 /usr/local/share/ca-certificates/bosh* > $PACKAGE_DIR/certs/trust.crt
+awk 1 /usr/local/share/ca-certificates/bosh* > $JOB_DIR/certs/trust.crt
 <% if_p("keycloak.trust_certs") do |trust|
 trust.each do |cert_alias,cert| -%>
 keytool -cacerts -delete -alias "<%= cert_alias %>" || echo "" >/dev/null
