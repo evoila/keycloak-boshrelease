@@ -146,4 +146,4 @@ instance_groups:
         password: ((postgresql_credentials.password))
         user: ((postgresql_credentials.username))
         name: keycloak
-        append: "?sslmode=verify-full&sslrootcert=%2Fvar%2Fvcap%2Fjobs%2Fkeycloak%2Fcerts%2Ftrust.crt"
+#        append: "?sslmode=verify-full&sslrootcert=%2Fvar%2Fvcap%2Fjobs%2Fkeycloak%2Fcerts%2Ftrust.crt"

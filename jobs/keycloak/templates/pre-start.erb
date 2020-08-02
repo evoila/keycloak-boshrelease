@@ -10,9 +10,6 @@ export JOB_DIR="/var/vcap/jobs/keycloak"
 JBOSS_CLI="$PACKAGE_DIR/bin/jboss-cli.sh --controller=localhost"
 LOG_DIR="/var/vcap/sys/log/keycloak"
 
-#exec >> $LOG_DIR/prestart.stdout.log
-#exec 2>> $LOG_DIR/prestart.stderr.log
-
 #mv /var/vcap/packages/themes/themes/* $PACKAGE_DIR/themes/
 
 # Remove some shit, because Wildfly is the App Server nobody needs anymore
