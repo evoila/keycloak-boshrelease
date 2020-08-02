@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -e
 set -o pipefail
 
 ## NOTE: This script MUST ALWAYS run as root user.
@@ -42,18 +42,20 @@ done
 $PACKAGE_DIR/bin/add-user-keycloak.sh -u <%= p('keycloak.admin.user') %> -p <%= p('keycloak.admin.password') %> || echo "user already exist"
 <% end %>
 
-TIMEOUT=100
+
+
+TIMEOUT=300
 end=$((SECONDS+$TIMEOUT))
 result=$(mktemp /tmp/result.XXXXXX)
 
 while [ $SECONDS -lt $end ]; do
     $JBOSS_CLI command=:reload | tee $result || echo write result to $result
-    if grep -q "success" $result; then
+    if  grep -q "Failed" $result; then
+        sleep 5
+    else
         echo "restart success"
         exit 0
         break
-    else
-        sleep 1
     fi
 done
 exit 20
