@@ -4,7 +4,7 @@ mkdir -p $JOB_DIR/certs/
 awk 1 /usr/local/share/ca-certificates/bosh* > $JOB_DIR/certs/trust.crt
 <% if_p("keycloak.trust_certs") do |trust|
 trust.each do |cert_alias,cert| -%>
-keytool -cacerts -delete -alias "<%= cert_alias %>" || echo "" >/dev/null
+keytool -cacerts -storepass  changeit -cacerts -delete -alias "<%= cert_alias %>" || echo "" >/dev/null
 keytool -importcert -file <(echo -e "<%= cert %>")  -cacerts -alias "<%= cert_alias %>" -storepass  changeit -noprompt
 echo -e "<%= cert %>" >> $JOB_DIR/certs/trust.crt
 <% end
